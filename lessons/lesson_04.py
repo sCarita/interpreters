@@ -124,9 +124,9 @@ class Interpreter(object):
         return token.value
 
     def term(self):
-        """Arithmetic expression parser / interpreter.
+        """Return a term token value.
 
-        term   : factor ((MUL | DIV) factor)*
+        term   : factor ((MUL | DIV) factor) *
         factor : INTEGER
         """
         result = self.factor()
@@ -145,8 +145,8 @@ class Interpreter(object):
     def expr(self):
         """Arithmetic expression parser / interpreter.
 
-        expr   : term ((PLUS | MINUS) term)*
-        term   : factor ((MUL | DIV) factor)*
+        expr   : term ((PLUS | MINUS) term) *
+        term   : factor ((MUL | DIV) factor) *
         factor : INTEGER
         """
         result = self.term()
