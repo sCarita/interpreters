@@ -1,5 +1,5 @@
 import unittest
-from lessons.lesson_05 import Lexer, Interpreter
+from lessons.lesson05.main import Lexer, Interpreter
 
 class Test(unittest.TestCase):
     def calculate(self, text):
