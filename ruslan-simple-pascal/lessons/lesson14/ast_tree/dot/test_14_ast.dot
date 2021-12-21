@@ -27,18 +27,38 @@ digraph astgraph {
   node14 -> node15
   node16 [label="INTEGER"]
   node14 -> node16
-  node17 [label="Compound"]
-  node18 [label="NoOp"]
+  node17 [label="VarDecl"]
+  node18 [label="a"]
   node17 -> node18
+  node19 [label="REAL"]
+  node17 -> node19
+  node20 [label="Compound"]
+  node21 [label=":="]
+  node22 [label="x"]
+  node23 [label="+"]
+  node24 [label="+"]
+  node25 [label="a"]
+  node26 [label="x"]
+  node24 -> node25
+  node24 -> node26
+  node27 [label="y"]
+  node23 -> node24
+  node23 -> node27
+  node21 -> node22
+  node21 -> node23
+  node20 -> node21
+  node28 [label="NoOp"]
+  node20 -> node28
   node13 -> node14
   node13 -> node17
+  node13 -> node20
   node9 -> node13
-  node19 [label="Compound"]
-  node20 [label="NoOp"]
-  node19 -> node20
+  node29 [label="Compound"]
+  node30 [label="NoOp"]
+  node29 -> node30
   node2 -> node3
   node2 -> node6
   node2 -> node9
-  node2 -> node19
+  node2 -> node29
   node1 -> node2
 }

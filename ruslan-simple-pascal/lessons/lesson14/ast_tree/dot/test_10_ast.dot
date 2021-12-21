@@ -14,7 +14,7 @@ digraph astgraph {
   node6 -> node7
   node8 [label="REAL"]
   node6 -> node8
-  node9 [label="ProcDecl:Alpha"]
+  node9 [label="ProcDecl:AlphaA"]
   node10 [label="Param"]
   node11 [label="a"]
   node10 -> node11
@@ -33,12 +33,32 @@ digraph astgraph {
   node13 -> node14
   node13 -> node17
   node9 -> node13
-  node19 [label="Compound"]
-  node20 [label="NoOp"]
+  node19 [label="ProcDecl:AlphaB"]
+  node20 [label="Param"]
+  node21 [label="a"]
+  node20 -> node21
+  node22 [label="INTEGER"]
+  node20 -> node22
   node19 -> node20
+  node23 [label="Block"]
+  node24 [label="VarDecl"]
+  node25 [label="b"]
+  node24 -> node25
+  node26 [label="INTEGER"]
+  node24 -> node26
+  node27 [label="Compound"]
+  node28 [label="NoOp"]
+  node27 -> node28
+  node23 -> node24
+  node23 -> node27
+  node19 -> node23
+  node29 [label="Compound"]
+  node30 [label="NoOp"]
+  node29 -> node30
   node2 -> node3
   node2 -> node6
   node2 -> node9
   node2 -> node19
+  node2 -> node29
   node1 -> node2
 }

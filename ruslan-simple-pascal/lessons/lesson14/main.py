@@ -7,6 +7,7 @@ from core.parser import Parser
 from core.visitors.pascal import Interpreter
 from core.visitors.semantic_analyzer import SemanticAnalyzer
 from core.visitors.ast_visualizer import ASTVisualizer
+from core.visitors.source_to_source import Source2Source
 
 def main(program):
     if program in os.listdir(f'./programs'):
@@ -36,13 +37,19 @@ def main(program):
             f'./ast_tree/dot/{program.split(".")[0]}_ast.dot'
         ])
 
-        # interpreter = Interpreter(tree)
-        # interpreter.interpret()
+        s2s = Source2Source()
+        s2s.visit(tree)
+        print()
+        print(s2s.new_source)
 
-        # print('')
-        # print('Run-time GLOBAL_MEMORY contents:')
-        # for k, v in sorted(interpreter.GLOBAL_SCOPE.items()):
-        #     print('{} = {}'.format(k, v))
+
+        interpreter = Interpreter(tree)
+        interpreter.interpret()
+
+        print('')
+        print('Run-time GLOBAL_MEMORY contents:')
+        for k, v in sorted(interpreter.GLOBAL_SCOPE.items()):
+            print('{} = {}'.format(k, v))
     else:
         raise Exception('No program was found.')
 

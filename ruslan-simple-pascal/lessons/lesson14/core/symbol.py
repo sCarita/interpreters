@@ -45,11 +45,13 @@ class ProcedureSymbol(Symbol):
     __repr__ = __str__
 
 class ScopedSymbolTable(object):
-    def __init__(self, level, name):
+    def __init__(self, level, name, enclosing_scope=None):
         self._symbols = OrderedDict()
         self.scope_level = level
         self.scope_name = name
-        self._init_builtin()
+        self.enclosing_scope = enclosing_scope
+        if self.enclosing_scope == None:
+            self._init_builtin()
 
     def _init_builtin(self):
         self.define(BuiltinTypeSymbol('INTEGER'))
@@ -61,6 +63,10 @@ class ScopedSymbolTable(object):
         for header_name, header_value in (
             ('Scope name', self.scope_name),
             ('Scope level', self.scope_level),
+            (
+                'Enclosing scope',
+                self.enclosing_scope.scope_name if self.enclosing_scope else None
+            )
         ):
             lines.append('%-15s: %s' % (header_name, header_value))
         h2 = 'Scope (Scoped symbol table) contents'
@@ -79,8 +85,20 @@ class ScopedSymbolTable(object):
         print(f'Define: {symbol}')
         self._symbols[symbol.name] = symbol
 
-    def lookup(self, name):
-        print(f'Lookup: {name}')
+    def lookup(self, name, current_scope_only=False, with_scope=None):
+        print(f'Lookup: {name}. (Scope name: {self.scope_name})')
         symbol = self._symbols.get(name)
+
         # 'symbol' is either an instance of the Symbol class or 'None'
-        return symbol
+        if symbol != None:
+            if with_scope:
+                return symbol, self.scope_level
+            else:
+                return symbol
+
+        if current_scope_only:
+            return None
+
+        # recursively go up the chain and lookup the name
+        if self.enclosing_scope is not None:
+            return self.enclosing_scope.lookup(name, with_scope=with_scope)
