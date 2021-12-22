@@ -56,7 +56,7 @@ class SemanticAnalyzer(NodeVisitor):
         if procedure_decl == None:
             self.error(ErrorCode.ID_NOT_FOUND, node.token)
 
-        if len(actual_params) != len(procedure_decl.params):
+        if len(actual_params) != len(procedure_decl.formal_params):
             self.error(ErrorCode.INVALID_NUM_ARGS, node.token)
 
         for param_node in actual_params:
@@ -74,16 +74,18 @@ class SemanticAnalyzer(NodeVisitor):
         # Scope for parameters and local variables
         procedure_scope = ScopedSymbolTable(
             name=proc_name,
-            level=self.current_scope.scope_level+1,
+            level=self.current_scope.scope_level + 1,
             enclosing_scope=self.current_scope
         )
         self.current_scope = procedure_scope
 
         # Insert parameters into the procedure scope
+        self.log(node.params)
         for param in node.params:
             param_type = self.current_scope.lookup(param.type_node.value)
             param_name = param.var_node.value
             var_symbol = VarSymbol(param_name, param_type)
+
             self.current_scope.define(var_symbol)
             proc_symbol.formal_params.append(var_symbol)
 
@@ -91,6 +93,8 @@ class SemanticAnalyzer(NodeVisitor):
 
         self.current_scope = self.current_scope.enclosing_scope
         self.log('LEAVE scope: %s' %  proc_name)
+
+        proc_symbol.block_ast = node.block_node
 
     def visit_Program(self, node):
         self.log('ENTER scope: global')

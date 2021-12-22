@@ -58,12 +58,23 @@ class Interpreter(NodeVisitor):
         ar = ActivationRecord(
             proc_name,
             ARType.PROCEDURE,
-            nesting_level=2
+            nesting_level=node.proc_symbol.scope_level + 1
         )
         for f_p, a_p in zip(formal_params, actual_params):
             ar[f_p.name] = self.visit(a_p)
 
         self.call_stack.push(ar)
+
+        self.log(f'ENTER: PROCEDURE {proc_name}')
+        self.log(str(self.call_stack))
+
+        self.visit(node.proc_symbol.block_ast)
+
+        self.log(f'LEAVE: PROCEDURE {proc_name}')
+        self.log(str(self.call_stack))
+
+        self.call_stack.pop()
+
 
     def visit_ProcedureDecl(self, node):
         pass
