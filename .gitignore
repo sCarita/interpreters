@@ -4,3 +4,6 @@ __pycache__/
 
 # virtualenv
 venv/
+
+# mypy
+.mypy_cache/
