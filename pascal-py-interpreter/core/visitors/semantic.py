@@ -1,14 +1,14 @@
 import ast
-from core.ast import *
 import os
 
-from core.visitors.node_visitor import NodeVisitor
+from core.ast import *
+from core.errors.semantic import SemanticError
+from core.errors.generic import ErrorCode
 from core.symbol import (
     ScopedSymbolTable, VarSymbol, ProcedureSymbol, FunctionSymbol
 )
-from core.errors.semantic import SemanticError
-from core.errors.generic import ErrorCode
 from core.token import Token
+from core.visitors.node_visitor import NodeVisitor
 
 
 _SHOULD_LOG_SCOPE = ast.literal_eval(os.environ['_SHOULD_LOG_SCOPE'])
@@ -137,7 +137,7 @@ class SemanticAnalyzer(NodeVisitor):
         self.log('ENTER scope: global')
         global_scope = ScopedSymbolTable(
             name='global', level=1,
-            enclosing_scope=self.current_scope
+            enclosing_scope=None
         )
         self.current_scope = global_scope
 
