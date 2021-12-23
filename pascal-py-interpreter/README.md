@@ -2,6 +2,8 @@
 
 ## Motivation
 
+The motivation of this interpreter is to implement an *almost* feature complete Pascal interpreter in Python language. Since the building 
+
 ## Grammar (implemented)
 
 ## To Do
